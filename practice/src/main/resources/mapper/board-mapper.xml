@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="lbw.practice.repository.BoardRepository">
+
+    <insert id="saveBoard" useGeneratedKeys="true" keyProperty="bno">
+            INSERT INTO board (bno, title, content)
+            VALUES (#{bno}, #{title}, #{content})
+    </insert>
+    
+    <select id="getAllBoards">
+        SELECT title, content
+        FROM board
+    </select>
+
+</mapper>
