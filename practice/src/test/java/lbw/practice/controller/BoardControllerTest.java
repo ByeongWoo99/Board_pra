@@ -1,16 +1,13 @@
 package lbw.practice.controller;
 
 import lbw.practice.config.BoardTestConfig;
-import lbw.practice.dto.BoardDto;
-import lbw.practice.service.BoardService;
+import lbw.practice.controller.board.BoardController;
+import lbw.practice.dto.board.BoardDto;
+import lbw.practice.service.board.BoardService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 

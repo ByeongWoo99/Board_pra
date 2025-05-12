@@ -1,10 +1,10 @@
-package lbw.practice.dto;
+package lbw.practice.dto.board;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -16,6 +16,7 @@ public class BoardDto {
     private String writer;
     private int viewCnt;
     private int commentCnt;
-    private Date regDate;
-
+    private LocalDateTime createdAt;
+    private LocalDateTime deletedAt;
+    private int deleteFlag;
 }

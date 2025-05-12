@@ -3,16 +3,45 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="lbw.practice.repository.BoardRepository">
+<mapper namespace="lbw.practice.repository.board.BoardRepository">
 
-    <insert id="saveBoard" useGeneratedKeys="true" keyProperty="bno">
-            INSERT INTO board (bno, title, content)
-            VALUES (#{bno}, #{title}, #{content})
+    <!-- 게시글 저장 -->
+    <insert id="saveBoard"
+            useGeneratedKeys="true"
+            keyProperty="bno">
+            INSERT INTO board (bno, title, content, created_at)
+            VALUES (#{bno}, #{title}, #{content}, #{createdAt})
     </insert>
-    
-    <select id="getAllBoards">
+
+    <!-- 전체 게시글 조회 -->
+    <select id="getAllBoards"
+            resultType="lbw.practice.dto.board.BoardDto">
         SELECT title, content
         FROM board
     </select>
 
+    <!-- bno 이용해서 특정 게시글 조회 -->
+    <select id="getBoardByBno"
+            parameterType="int"
+            resultType="lbw.practice.dto.board.BoardDto">
+        SELECT *
+        FROM board
+        WHERE bno = #{bno}
+    </select>
+
+    <!-- 게시글 수정 -->
+    <update id="editBoard"
+            parameterType="lbw.practice.dto.board.BoardDto">
+        UPDATE board
+        SET title = #{title},
+            content = #{content}
+        WHERE bno = #{bno}
+    </update>
+
+    <!-- 게시글 deleteFlag 활성화 -->
+    <update id="deleteBoard">
+     UPDATE board
+     SET delete_flag = #{deleteFlag}
+     WHERE bno = #{bno}
+    </update>
 </mapper>
