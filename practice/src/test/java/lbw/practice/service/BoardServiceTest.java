@@ -1,8 +1,8 @@
 // src/test/java/lbw/practice/service/BoardServiceTest.java
 package lbw.practice.service;
 
-import lbw.practice.dto.BoardDto;
-import lbw.practice.repository.BoardRepository;
+import lbw.practice.dto.board.BoardDto;
+import lbw.practice.service.board.BoardService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,7 @@ class BoardServiceTest {
         boardDto2.setContent("내용 테스트2");
     }
 
-    @DisplayName("게시글 저장 확인")
+    @DisplayName("게시글 저장 확인, 생성시간 추가 후 테스트")
     @Test
     void saveBoard() {
 
@@ -53,9 +53,12 @@ class BoardServiceTest {
         System.out.println(boardDto1.getBno());
         assertEquals("제목 테스트1", boardDto1.getTitle());
         assertEquals("내용 테스트1", boardDto1.getContent());
+        //생성시간 추가 테스트
+        System.out.println(boardDto1.getCreatedAt());
+        assertNotNull(boardDto1.getCreatedAt(), "생성시간 설정 에러");
     }
 
-    @DisplayName("게시글 목록 확인")
+    @DisplayName("게시글 목록 확인 테스트")
     @Test
     void getAllBoards() {
 
@@ -85,6 +88,47 @@ class BoardServiceTest {
         assertEquals("제목 테스트2", boardList.get(1).getTitle());
         assertEquals("내용 테스트2", boardList.get(1).getContent());
 
+    }
+
+    @DisplayName("게시글 삭제 시 delete_flag 활성화 테스트")
+    @Test
+    void deleteBoard() {
+        boardService.saveBoard(boardDto1);
+        boardService.deleteBoard(boardDto1);
+        assertNotNull(boardDto1.getDeleteFlag());
+    }
+
+    @DisplayName("특정 게시글 조회(bno 이용)")
+    @Test
+    void getBoard() {
+        //given - 게시글 저장
+        boardService.saveBoard(boardDto1);
+
+        int bno = boardDto1.getBno();
+
+        //저장된 게시글을 bno 이용해서 조회
+        BoardDto foundBoardDto = boardService.getBoardByBno(bno);
+
+        assertNotNull(foundBoardDto);
+        assertEquals(bno, foundBoardDto.getBno());
+        assertEquals(foundBoardDto.getTitle(), boardDto1.getTitle());
+        assertEquals(foundBoardDto.getContent(), boardDto1.getContent());
+    }
+
+    @DisplayName("게시글 수정 기능 테스트")
+    @Test
+    void editBoard() {
+        boardService.saveBoard(boardDto1);
+
+        boardDto1.setTitle("수정 제목");
+        boardDto1.setContent("수정 내용");
+
+        //수정 메서드 호출
+        BoardDto editedBoardDto = boardService.editBoard(boardDto1);
+
+        assertEquals(boardDto1.getBno(), editedBoardDto.getBno());
+        assertEquals("수정 제목", editedBoardDto.getTitle());
+        assertEquals("수정 내용", editedBoardDto.getContent());
     }
 
 }
